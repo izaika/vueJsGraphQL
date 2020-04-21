@@ -4,7 +4,7 @@
   "description": "Starter for Full-Stack Vue-GraphQL-Apollo Projects",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server.js",
+    "server": "nodemon --exec babel-node server.js",
     "client": "cd client && npm start",
     "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\""
   },
@@ -21,6 +21,9 @@
     "mongoose": "^5.2.6"
   },
   "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.5",
     "@types/mongoose": "^5.7.12",
     "concurrently": "^5.1.0",
     "nodemon": "^2.0.3"

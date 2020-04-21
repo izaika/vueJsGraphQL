@@ -1,8 +1,10 @@
-const { ApolloServer, gql } = require('apollo-server');
-const mongoose = require('mongoose');
-require('dotenv').config({ path: 'variables.env' });
-const User = require('./models/User');
-const Post = require('./models/Post');
+import { ApolloServer, gql } from 'apollo-server';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+import { Post, User } from './models';
+
+dotenv.config({ path: 'variables.env' });
 
 mongoose
   .connect(process.env.MONGO_URI, {
