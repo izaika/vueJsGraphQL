@@ -1,8 +1,15 @@
-import { ApolloServer, gql } from 'apollo-server';
+import fs from 'fs';
+import path from 'path';
+
+import { ApolloServer } from 'apollo-server';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 import { Post, User } from './models';
+import { resolvers } from './resolvers';
+
+const filePath = path.join(__dirname, 'typedefs.gql');
+const typeDefs = fs.readFileSync(filePath, 'utf-8');
 
 dotenv.config({ path: 'variables.env' });
 
@@ -15,22 +22,11 @@ mongoose
   .then(() => console.log('DB connected'))
   .catch(console.error);
 
-const typeDefs = gql`
-  type Todo {
-    task: String
-    completed: Boolean
-  }
-
-  type Query {
-    getTodos: [Todo]
-  }
-
-  type Mutation {
-    addTodo(task: String, completed: Boolean): Todo
-  }
-`;
-
-const server = new ApolloServer({ typeDefs, context: { User, Post } });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: { User, Post },
+});
 
 server.listen().then(({ url }) => {
   console.log(`Server is listening on port ${url}`);
