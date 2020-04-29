@@ -50,7 +50,9 @@
     </v-card>
 
     <main>
-      <router-view />
+      <transition name="fade">
+        <router-view />
+      </transition>
     </main>
   </v-app>
 </template>
@@ -83,3 +85,21 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition-property: all;
+  transition-duration: 0.25s;
+}
+
+.fade-enter-active {
+  transition-delay: 0.25s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+  transform: translateX(-25px);
+}
+</style>
