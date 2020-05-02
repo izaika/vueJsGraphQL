@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 import { Post, User } from './models';
 import { resolvers } from './resolvers';
 
-const filePath = path.join(__dirname, 'typedefs.gql');
+const filePath = path.join(__dirname, 'typeDefs.gql');
 const typeDefs = fs.readFileSync(filePath, 'utf-8');
 
 dotenv.config({ path: 'variables.env' });

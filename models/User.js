@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 import md5 from 'md5';
-import bcrypt from 'bcrypt';
+import { hashSync } from 'bcrypt';
 
 const UserSchema = new Schema({
   username: {
@@ -41,7 +41,7 @@ UserSchema.pre('save', function (next) {
 UserSchema.pre('save', function (next) {
   if (!this.isModified('password')) return next();
 
-  this.password = bcrypt.hashSync(this.password, 10);
+  this.password = hashSync(this.password, 10);
   next();
 });
 
