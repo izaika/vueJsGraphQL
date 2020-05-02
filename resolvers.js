@@ -1,4 +1,13 @@
 import { compareSync } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
+
+/**
+ * @param { string } username
+ * @param { string } email
+ *
+ */
+const createToken = (username, email) =>
+  sign({ username, email }, process.env.SECRET, { expiresIn: '1hr' });
 
 export const resolvers = {
   Query: {
@@ -30,7 +39,7 @@ export const resolvers = {
       const isPasswordValid = compareSync(password, user.password);
       if (!isPasswordValid) throw new Error('Invalid password');
 
-      return user;
+      return { token: createToken(username, user.email) };
     },
 
     signupUser: async (_, { username, email, password }, { User }) => {
@@ -38,7 +47,8 @@ export const resolvers = {
         throw new Error('User already exists');
       }
 
-      return await new User({ username, email, password }).save();
+      await new User({ username, email, password }).save();
+      return { token: createToken(username, email) };
     },
   },
 };
